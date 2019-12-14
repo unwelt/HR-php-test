@@ -19,7 +19,9 @@ class OpenWeatherMapApi implements WeatherApiInterface
 
     public function __construct()
     {
-        $this->apiKey = env('OPEN_WEATHER_KEY', false);
+        if (($this->apiKey = env('OPEN_WEATHER_KEY', false)) === false) {
+            throw new \Exception('Отсутствует API-ключ');
+        }
     }
 
     /**

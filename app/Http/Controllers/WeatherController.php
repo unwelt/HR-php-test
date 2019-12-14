@@ -21,13 +21,13 @@ class WeatherController extends Controller
 
     public function index(Request $request)
     {
-        $data = [];
+        $weatherData = [];
         if ($cityName = $request->get('cityName', false)) {
-            $data = $this->service->getWeatherInCity($cityName);
+            $weatherData = $this->service->getWeatherInCity($cityName);
         }
 
-        return view('weather')->with([
-            'data' => $data
+        return view('weather.index')->with([
+            'weatherData' => $weatherData
         ]);
     }
 }
