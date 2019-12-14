@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/weather/{cityName?}', 'WeatherController@index');
+Route::get('/weather', 'WeatherController@index');
