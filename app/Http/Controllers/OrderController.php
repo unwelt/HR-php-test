@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    private $service;
+
+    public function __construct(OrderService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *

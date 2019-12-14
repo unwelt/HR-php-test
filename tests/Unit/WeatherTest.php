@@ -4,15 +4,17 @@ namespace Tests\Unit;
 
 use App\Api\Weather\Classes\OpenWeatherMapApi;
 use App\Api\Weather\WeatherGateway;
-use App\Api\Weather\WeatherGatewayInterface;
 use App\Services\WeatherService;
 use Tests\TestCase;
 
 class WeatherTest extends TestCase
 {
+    private $service;
+
     protected function setUp()
     {
         parent::setUp();
+        $this->service = new WeatherService();
     }
 
     public function testOpenWeatherMapApi()
@@ -23,8 +25,15 @@ class WeatherTest extends TestCase
     }
 
 
-    public function testWeatherService()
+    public function testWeatherServiceWithCityName()
     {
-        $weatherService = new WeatherService();
+        $result = $this->service->getWeatherInCity('Брянск');
+        $this->assertArrayHasKey('weather', $result);
+    }
+
+    public function testWeatherServiceWithoutCityName()
+    {
+        $result = $this->service->getWeatherInCity('');
+        $this->assertArrayNotHasKey('weather', $result);
     }
 }
