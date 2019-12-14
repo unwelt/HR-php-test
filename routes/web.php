@@ -11,8 +11,27 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/weather', 301);
 
-Route::get('/weather', 'WeatherController@index');
+Route::get('/weather', 'WeatherController@index')->name('weather');
+
+Route::resource('orders', 'OrderController', [
+    'only' => [
+        'index', 'edit', 'update',
+    ],
+    'names' => [
+        'index' => 'orders.index',
+        'edit' => 'order.edit',
+        'update' => 'order.update',
+    ]
+]);
+
+Route::resource('products', 'ProductController', [
+    'only' => [
+        'index', 'update',
+    ],
+    'names' => [
+        'index' => 'products.index',
+        'update' => 'product.update',
+    ]
+]);
