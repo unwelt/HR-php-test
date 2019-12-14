@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Api\Weather\Classes\WeatherApiInterface;
 use App\Services\WeatherService;
-use http\Client\Request;
+use Illuminate\Http\Request;
+
 
 class WeatherController extends Controller
 {
@@ -21,7 +22,7 @@ class WeatherController extends Controller
     public function index(Request $request)
     {
         $data = [];
-        if ( !== '') {
+        if ($cityName = $request->get('cityName', false)) {
             $data = $this->service->getWeatherInCity($cityName);
         }
 
