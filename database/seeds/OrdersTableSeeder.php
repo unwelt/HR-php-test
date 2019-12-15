@@ -19,7 +19,7 @@ class OrdersTableSeeder extends Seeder
         for ($i = 0; $i < $limit; $i++) {
             $createdAt = \Carbon\Carbon::now()->subDays(rand(0, 4));
             \DB::table('orders')->insert([				
-				'status' => $status[rand(0,2)],
+				'status_id' => $status[rand(0,2)],
 				'client_email' => $faker->email,
                 'partner_id' => $faker->numberBetween(1, 20),
                 'delivery_dt' => $createdAt->copy()->addHours(rand(6,50)),

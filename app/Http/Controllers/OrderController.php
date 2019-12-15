@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateOrder;
 use App\Models\Order;
+use App\Models\Partner;
+use App\Models\Status;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 
@@ -22,72 +25,50 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('orders.index');
-    }
+        $allOrdersList = $this->service->getOrdersList();
+        $staledOrdersList = $this->service->getStaledOrdersList();
+        $currentOrdersList = $this->service->getCurrentOrdersList();
+        $newOrdersList = $this->service->getNewOrdersList();
+        $readyOrdersList = $this->service->getReadyOrdersList();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
-    {
-        //
+        return view('orders.index')->with([
+            'allOrdersList'     => $allOrdersList,
+            'staledOrdersList'  => $staledOrdersList,
+            'currentOrdersList' => $currentOrdersList,
+            'newOrdersList'     => $newOrdersList,
+            'readyOrdersList'   => $readyOrdersList,
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Order  $order
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Order $order)
     {
-        //
+        $partners = Partner::all();
+        $statuses = Status::all();
+        return view('orders.edit')->with([
+            'order' => $order,
+            'partners' => $partners,
+            'statuses' => $statuses,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\UpdateOrder  $request
      * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function update(UpdateOrder $request, Order $order)
     {
-        //
+        $this->service->updateOrderData($request->validated(), $order);
+        return redirect()->route('order.edit', $order);
     }
 }
