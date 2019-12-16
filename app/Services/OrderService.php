@@ -87,6 +87,10 @@ class OrderService
         return $orders;
     }
 
+    /**
+     * Метод возвращающий список выполненных заказов
+     * @return Order[]|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function getReadyOrdersList()
     {
         $orders = $this->model->with('partner', 'products', 'status')
@@ -98,6 +102,14 @@ class OrderService
         return $orders;
     }
 
+    /**
+     * Метод сохраняющий изменения заказа
+     *
+     * @param  array  $data
+     * @param  Order  $order
+     *
+     * @return bool
+     */
     public function updateOrderData(array $data, Order $order)
     {
         return $order->update($data);

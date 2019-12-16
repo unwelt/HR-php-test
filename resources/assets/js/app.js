@@ -15,8 +15,11 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', require('./components/Example.vue'));
+let PriceController = require('./components/PriceController').default
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: {
+        'price-controller': PriceController
+    }
 });
